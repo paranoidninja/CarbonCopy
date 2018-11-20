@@ -1,5 +1,10 @@
 #!/usr/bin/python3
 
+##Author : Paranoid Ninja
+##Email  : paranoidninja@protonmail.com
+##Descr  : Spoofs SSL Certificates and Signs executables to evade Antivirus
+
+
 from OpenSSL import crypto
 from sys import argv, platform
 import ssl
