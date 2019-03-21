@@ -65,7 +65,7 @@ def CarbonCopy(host, port, signee, signed):
         with open((PFXFILE), 'wb') as pfile:
             pfile.write(pfxdata)
 
-        if (platform == "win32"):
+        if platform == "win32":
             print("[+] Platform is Windows OS...")
             print("[+] Signing %s with signtool.exe..." %(signed))
             print(subprocess.check_output("copy " + signee + " " + signed, shell=True).decode())
@@ -87,7 +87,7 @@ def main():
  +-+-+-+-+-+-+-+-+-+-+-+-+
 
   CarbonSigner v1.0\n  Author: Paranoid Ninja\n""")
-    if (len(argv) != 5):
+    if len(argv) != 5:
         print("[+] Descr: Impersonates the Certificate of a website\n[!] Usage: " + argv[0] + " <hostname> <port> <build-executable> <signed-executable>\n")
     else:
         CarbonCopy(argv[1], argv[2], argv[3], argv[4])
