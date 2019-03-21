@@ -7,6 +7,7 @@
 
 from OpenSSL import crypto
 from sys import argv, platform
+import shutil
 import ssl
 import os
 import subprocess
@@ -70,7 +71,7 @@ def CarbonCopy(host, port, signee, signed):
         if platform == "win32":
             print("[+] Platform is Windows OS...")
             print("[+] Signing %s with signtool.exe..." %(signed))
-            print(subprocess.check_output("copy " + signee + " " + signed, shell=True).decode())
+            shutil.copy(signee, signed)
             print(subprocess.check_output("signtool.exe sign /v /f " + PFXFILE + " /d \"MozDef Corp\" /tr \"http://sha256timestamp.ws.symantec.com/sha256/timestamp\" /td SHA256 /fd SHA256 " + signed, shell=True).decode())
 
         else:
