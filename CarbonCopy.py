@@ -50,8 +50,10 @@ def CarbonCopy(host, port, signee, signed):
         cert.sign(k, 'sha256')
 
         print("[+] Creating %s and %s" %(CNCRT, CNKEY))
-        open(CNCRT, "wt").write(crypto.dump_certificate(crypto.FILETYPE_PEM, cert).decode('utf-8'))
-        open(CNKEY, "wt").write(crypto.dump_privatekey(crypto.FILETYPE_PEM, k).decode('utf-8'))
+        with open(CNCRT, "wb") as f:
+            f.write(crypto.dump_certificate(crypto.FILETYPE_PEM, cert))
+        with open(CNKEY, "wb") as f:
+            f.write(crypto.dump_privatekey(crypto.FILETYPE_PEM, k))
         print("[+] Clone process completed. Creating PFX file for signing executable...")
 
         try:
