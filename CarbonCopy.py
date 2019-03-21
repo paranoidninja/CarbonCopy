@@ -7,6 +7,7 @@
 
 from OpenSSL import crypto
 from sys import argv, platform
+from pathlib import Path
 import shutil
 import ssl
 import os
@@ -22,14 +23,13 @@ def CarbonCopy(host, port, signee, signed):
         ogcert = ssl.get_server_certificate((host, int(port)))
         x509 = crypto.load_certificate(crypto.FILETYPE_PEM, ogcert)
 
-        certDir = r'certs'
-        if not os.path.exists(certDir):
-            os.makedirs(certDir)
+        certDir = Path('certs')
+        certDir.mkdir(exist_ok=True)
 
         #Creating Fake Certificate
-        CNCRT = certDir + "/" + host + ".crt"
-        CNKEY = certDir + "/" + host + ".key"
-        PFXFILE = certDir + "/" + host + '.pfx'
+        CNCRT   = certDir / (host + ".crt")
+        CNKEY   = certDir / (host + ".key")
+        PFXFILE = certDir / (host + ".pfx")
 
         #Creating Keygen
         k = crypto.PKey()
@@ -53,10 +53,8 @@ def CarbonCopy(host, port, signee, signed):
         cert.sign(k, 'sha256')
 
         print("[+] Creating %s and %s" %(CNCRT, CNKEY))
-        with open(CNCRT, "wb") as f:
-            f.write(crypto.dump_certificate(crypto.FILETYPE_PEM, cert))
-        with open(CNKEY, "wb") as f:
-            f.write(crypto.dump_privatekey(crypto.FILETYPE_PEM, k))
+        CNCRT.write_bytes(crypto.dump_certificate(crypto.FILETYPE_PEM, cert))
+        CNKEY.write_bytes(crypto.dump_privatekey(crypto.FILETYPE_PEM, k))
         print("[+] Clone process completed. Creating PFX file for signing executable...")
 
         try:
@@ -67,8 +65,7 @@ def CarbonCopy(host, port, signee, signed):
         pfx.set_certificate(cert)
         pfxdata = pfx.export()
 
-        with open((PFXFILE), 'wb') as pfile:
-            pfile.write(pfxdata)
+        PFXFILE.write_bytes(pfxdata)
 
         if platform == "win32":
             print("[+] Platform is Windows OS...")
