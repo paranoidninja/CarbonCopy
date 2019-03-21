@@ -12,6 +12,8 @@ import ssl
 import os
 import subprocess
 
+TIMESTAMP_URL = "http://sha256timestamp.ws.symantec.com/sha256/timestamp"
+
 def CarbonCopy(host, port, signee, signed):
 
     try:
@@ -72,12 +74,12 @@ def CarbonCopy(host, port, signee, signed):
             print("[+] Platform is Windows OS...")
             print("[+] Signing %s with signtool.exe..." %(signed))
             shutil.copy(signee, signed)
-            subprocess.check_call(["signtool.exe", "sign","/v", "/f", PFXFILE, "/d", "MozDef Corp", "/tr", "http://sha256timestamp.ws.symantec.com/sha256/timestamp", "/td", "SHA256", "/fd", "SHA256", signed])
+            subprocess.check_call(["signtool.exe", "sign","/v", "/f", PFXFILE, "/d", "MozDef Corp", "/tr", TIMESTAMP_URL, "/td", "SHA256", "/fd", "SHA256", signed])
 
         else:
             print("[+] Platform is Linux OS...")
             print("[+] Signing %s with %s using osslsigncode..." %(signee, PFXFILE))
-            args = ("osslsigncode", "sign", "-pkcs12", PFXFILE, "-n", "Notepad Benchmark Util", "-i", "http://sha256timestamp.ws.symantec.com/sha256/timestamp", "-in", signee, "-out", signed)
+            args = ("osslsigncode", "sign", "-pkcs12", PFXFILE, "-n", "Notepad Benchmark Util", "-i", TIMESTAMP_URL, "-in", signee, "-out", signed)
             print("[+] ", end='', flush=True)
             subprocess.check_call(args)
 
