@@ -72,14 +72,14 @@ def CarbonCopy(host, port, signee, signed):
             print("[+] Platform is Windows OS...")
             print("[+] Signing %s with signtool.exe..." %(signed))
             shutil.copy(signee, signed)
-            print(subprocess.check_output("signtool.exe sign /v /f " + PFXFILE + " /d \"MozDef Corp\" /tr \"http://sha256timestamp.ws.symantec.com/sha256/timestamp\" /td SHA256 /fd SHA256 " + signed, shell=True).decode())
+            subprocess.check_call("signtool.exe sign /v /f " + PFXFILE + " /d \"MozDef Corp\" /tr \"http://sha256timestamp.ws.symantec.com/sha256/timestamp\" /td SHA256 /fd SHA256 " + signed, shell=True)
 
         else:
             print("[+] Platform is Linux OS...")
             print("[+] Signing %s with %s using osslsigncode..." %(signee, PFXFILE))
             args = ("osslsigncode", "sign", "-pkcs12", PFXFILE, "-n", "Notepad Benchmark Util", "-i", "http://sha256timestamp.ws.symantec.com/sha256/timestamp", "-in", signee, "-out", signed)
-            output = subprocess.check_output(args)
-            print("[+] " + output.decode('utf-8'))
+            print("[+] ", end='', flush=True)
+            subprocess.check_call(args)
 
     except Exception as ex:
         print("[X] Something Went Wrong!\n[X] Exception: " + str(ex))
