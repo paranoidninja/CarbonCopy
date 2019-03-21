@@ -82,16 +82,14 @@ def CarbonCopy(host, port, signee, signed):
         print("[X] Something Went Wrong!\n[X] Exception: " + str(ex))
 
 def main():
+    print(""" +-+-+-+-+-+-+-+-+-+-+-+-+
+ |C|a|r|b|o|n|S|i|g|n|e|r|
+ +-+-+-+-+-+-+-+-+-+-+-+-+
+
+  CarbonSigner v1.0\n  Author: Paranoid Ninja\n""")
     if (len(argv) != 5):
-        print(""" +-+-+-+-+-+-+-+-+-+-+-+-+
- |C|a|r|b|o|n|S|i|g|n|e|r|
- +-+-+-+-+-+-+-+-+-+-+-+-+""")
-        print("\n  CarbonSigner v1.0\n  Author: Paranoid Ninja\n\n[+] Descr: Impersonates the Certificate of a website\n[!] Usage: " + argv[0] + " <hostname> <port> <build-executable> <signed-executable>\n")
+        print("[+] Descr: Impersonates the Certificate of a website\n[!] Usage: " + argv[0] + " <hostname> <port> <build-executable> <signed-executable>\n")
     else:
-        print(""" +-+-+-+-+-+-+-+-+-+-+-+-+
- |C|a|r|b|o|n|S|i|g|n|e|r|
- +-+-+-+-+-+-+-+-+-+-+-+-+""")
-        print("\n  CarbonSigner v1.0\n  Author: Paranoid Ninja\n")
         CarbonCopy(argv[1], argv[2], argv[3], argv[4])
 
 if __name__=="__main__":
