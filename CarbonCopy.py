@@ -72,9 +72,7 @@ def CarbonCopy(host, port, signee, signed):
             print("[+] Platform is Linux OS...")
             print("[+] Signing %s with %s using osslsigncode..." %(signee, PFXFILE))
             args = ("osslsigncode", "sign", "-pkcs12", PFXFILE, "-n", "Notepad Benchmark Util", "-i", "http://sha256timestamp.ws.symantec.com/sha256/timestamp", "-in", signee, "-out", signed)
-            popen = subprocess.Popen(args, stdout=subprocess.PIPE)
-            popen.wait()
-            output = popen.stdout.read()
+            output = subprocess.check_output(args)
             print("[+] " + output.decode('utf-8'))
 
     except Exception as ex:
