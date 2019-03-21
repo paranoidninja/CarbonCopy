@@ -71,7 +71,7 @@ def CarbonCopy(host, port, signee, signed):
             print("[+] Platform is Windows OS...")
             print("[+] Signing %s with signtool.exe..." %(signed))
             shutil.copy(signee, signed)
-            subprocess.check_call(["signtool.exe", "sign","/v", "/f", PFXFILE,
+            subprocess.check_call(["signtool.exe", "sign", "/v", "/f", PFXFILE,
                 "/d", "MozDef Corp", "/tr", TIMESTAMP_URL,
                 "/td", "SHA256", "/fd", "SHA256", signed])
 
