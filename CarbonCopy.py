@@ -54,7 +54,10 @@ def CarbonCopy(host, port, signee, signed):
         open(CNKEY, "wt").write(crypto.dump_privatekey(crypto.FILETYPE_PEM, k).decode('utf-8'))
         print("[+] Clone process completed. Creating PFX file for signing executable...")
 
-        pfx = crypto.PKCS12Type()
+        try:
+            pfx = crypto.PKCS12()
+        except AttributeError:
+            pfx = crypto.PKCS12Type()
         pfx.set_privatekey(k)
         pfx.set_certificate(cert)
         pfxdata = pfx.export()
