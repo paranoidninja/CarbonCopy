@@ -59,11 +59,18 @@ def CarbonCopy(host, port, signee, signed):
 
         try:
             pfx = crypto.PKCS12()
-        except AttributeError:
-            pfx = crypto.PKCS12Type()
-        pfx.set_privatekey(k)
-        pfx.set_certificate(cert)
-        pfxdata = pfx.export()
+            pfx.set_privatekey(k)
+            pfx.set_certificate(cert)
+            pfxdata = pfx.export()
+        except (AttributeError, Exception):
+            from cryptography.hazmat.primitives.serialization import pkcs12, NoEncryption
+            pfxdata = pkcs12.serialize_key_and_certificates(
+                name=b"certificate",
+                key=k.to_cryptography_key(),
+                cert=cert.to_cryptography(),
+                cas=None,
+                encryption_algorithm=NoEncryption(),
+            )
 
         PFXFILE.write_bytes(pfxdata)
 
